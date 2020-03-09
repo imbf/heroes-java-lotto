@@ -18,12 +18,11 @@ public class InputView {
         return Integer.parseInt(scanner.nextLine());
     }
 
-    public static List<String> inputLottos(int manualLottoCount) {
+    public static List<String> inputLottoStrings(int manualLottoCount) {
         List<String> strings = new ArrayList<>();
         System.out.println("\n수동으로 구매할 번호를 입력해 주세요.");
         for (int count = 0; count < manualLottoCount; count++) {
-            String string = scanner.nextLine();
-            strings.add(string);
+            strings.add(scanner.nextLine());
         }
         return strings;
     }

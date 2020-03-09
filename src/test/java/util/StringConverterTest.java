@@ -11,8 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StringConverterTest {
 
-    private static final int LOTTO_NUMBER_SIZE = 6;
-
     @Test
     public void convertStringToLottosTest() {
         List<List<Integer>> lists = Arrays.asList(
@@ -22,13 +20,16 @@ public class StringConverterTest {
         List<String> strings = Arrays.asList("8, 21, 23, 41, 42, 43", "3, 5, 11, 16, 32, 38");
         List<Lotto> lottos = StringConverter.convertStringsToLottos(strings);
 
-        for (int i = 0; i < lottos.size(); i++) {
-            for (int j = 0; j < LOTTO_NUMBER_SIZE; j++) {
-                Lotto lotto = lottos.get(i);
-                LottoNumber lottoNumbers = lotto.getLottoNumbers().get(j);
+        for (int index = 0; index < lottos.size(); index++) {
+            Lotto lotto = lottos.get(index);
+            lottoNumbersTest(lotto.getLottoNumbers(), lists.get(index));
+        }
+    }
 
-                assertThat(lottoNumbers.getNumber()).isEqualTo(lists.get(i).get(j));
-            }
+    private void lottoNumbersTest(List<LottoNumber> lottoNumbers, List<Integer> integers) {
+        for (int index = 0; index < lottoNumbers.size(); index++) {
+            LottoNumber lottoNumber = lottoNumbers.get(index);
+            assertThat(lottoNumber.getNumber()).isEqualTo(integers.get(index));
         }
     }
 }

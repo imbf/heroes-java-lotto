@@ -1,7 +1,6 @@
 package lotto;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class LottoGame {
 
@@ -42,15 +41,12 @@ public class LottoGame {
         this.winningLotto = winningLotto;
     }
 
-    public List<LottoRankResult> createRankResults() {
-        List<LottoRankResult> lottoRankResults = new ArrayList<>();
-        for (int index = 0; index < Rank.values().length; index++) {
-            lottoRankResults.add(new LottoRankResult(Rank.values()[index]));
-        }
+    public LottoResult createResult() {
+        LottoResult lottoResult = new LottoResult(purchaseMoney);
         for (Lotto lotto : lottos) {
-            checkLotto(lotto, lottoRankResults);
+            checkLotto(lotto, lottoResult.getLottoRankResults());
         }
-        return lottoRankResults;
+        return lottoResult;
     }
 
     private void checkLotto(Lotto lotto, List<LottoRankResult> lottoRankResults) {
@@ -59,11 +55,10 @@ public class LottoGame {
         for (LottoNumber lottoNumber : winningLotto.getLotto().getLottoNumbers()) {
             countOfMatch += checkNumberMatch(integers, lottoNumber.getNumber());
         }
-        boolean matchBonus = isMatchBonus(integers);
+        boolean matchBonus = isBonusMatch(integers);
         for (LottoRankResult lottoRankResult : lottoRankResults) {
-            lottoRankResult.win(Rank.valueOf(countOfMatch, matchBonus));
+            lottoRankResult.increaseCount(Rank.valueOf(countOfMatch, matchBonus));
         }
-
     }
 
     private int checkNumberMatch(List<Integer> integers, int number) {
@@ -73,7 +68,7 @@ public class LottoGame {
         return 0;
     }
 
-    private boolean isMatchBonus(List<Integer> integers) {
+    private boolean isBonusMatch(List<Integer> integers) {
         if (integers.contains(winningLotto.getBonusNumber())) {
             return true;
         }

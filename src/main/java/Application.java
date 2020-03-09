@@ -11,14 +11,13 @@ public class Application {
     public static void main(String[] args) {
         PurchaseMoney purchaseMoney = new PurchaseMoney(inputPurchaseMoney());
         LottoGame lottoGame = new LottoGame(purchaseMoney, inputManualLottoCount());
-        List<Lotto> manualLottos = convertStringsToLottos(inputLottos(lottoGame.getManualLottoCount()));
+        List<Lotto> manualLottos = convertStringsToLottos(inputLottoStrings(lottoGame.getManualLottoCount()));
 
         lottoGame.setLottos(manualLottos);
         lottoGame.setLottos(new AutoLottoGenerator().createLottos(lottoGame.getAutoLottoCount()));
 
         ResultView.showAllLottos(lottoGame);
         lottoGame.setWinningLotto(new WinningLotto(convertStringToLotto(inputWinningLotto()),inputBonusNumber()));
-        ResultView.showRankResult(lottoGame.createRankResults());
-        ResultView.showRateOfProfit(LottoStatistical.createRateOfProfit(lottoGame));
+        ResultView.showGameResult(lottoGame.createResult());
     }
 }

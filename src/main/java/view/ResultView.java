@@ -1,9 +1,6 @@
 package view;
 
-import lotto.Lotto;
-import lotto.LottoGame;
-import lotto.LottoRankResult;
-import lotto.Rank;
+import lotto.*;
 
 import java.util.List;
 
@@ -24,25 +21,30 @@ public class ResultView {
         System.out.println(lotto.getLottoNumbers().get(lotto.getLottoNumbers().size() - 1).getNumber() + "]");
     }
 
-    public static void showRankResult(List<LottoRankResult> lottoRankResults) {
+    public static void showGameResult(LottoResult lottoResult) {
         System.out.println("\n당첨 통계");
         System.out.println("----------");
+        showRankResults(lottoResult.getLottoRankResults());
+        showRateOfProfit(lottoResult.createRateOfProfit());
+    }
+
+    private static void showRankResults(List<LottoRankResult> lottoRankResults) {
         for (LottoRankResult lottoRankResult : lottoRankResults) {
-            showlottoRankResult(lottoRankResult);
+            showRankResult(lottoRankResult);
         }
     }
 
-    private static void showlottoRankResult(LottoRankResult lottoRankResult) {
+    private static void showRankResult(LottoRankResult lottoRankResult) {
         if (lottoRankResult.getRank() == Rank.SECOND) {
             System.out.println(lottoRankResult.getRank().getCountOfMatch() + "개 일치, 보너스 볼 일치("
                     + lottoRankResult.getRank().getWinningMoney() + "원) - " + lottoRankResult.getCount() + "개");
             return;
         }
-        System.out.println(lottoRankResult.getRank().getCountOfMatch()+"개 일치," +
+        System.out.println(lottoRankResult.getRank().getCountOfMatch() + "개 일치," +
                 " (" + lottoRankResult.getRank().getWinningMoney() + "원) - " + lottoRankResult.getCount() + "개");
     }
 
-    public static void showRateOfProfit(Double rateOfProfit) {
+    private static void showRateOfProfit(Double rateOfProfit) {
         System.out.println("총 수익률은 " + String.format("%.1f", rateOfProfit) + "%입니다.");
     }
 
