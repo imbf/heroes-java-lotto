@@ -2,7 +2,6 @@ import lotto.*;
 import view.InputView;
 import view.ResultView;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Application {
@@ -20,6 +19,5 @@ public class Application {
         ResultView.showAllLottos(lottoGame);
         WinningLotto winningLotto = new WinningLotto(lottoMachine.createManualLotto(InputView.inputWinningLotto()), InputView.inputBonusNumber());
         ResultView.showGameResult(lottoGame.createResult(winningLotto));
-
     }
 }

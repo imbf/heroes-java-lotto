@@ -1,6 +1,5 @@
 package lotto;
 
-import lotto.*;
 import org.junit.Before;
 import org.junit.Test;
 
