@@ -1,6 +1,5 @@
 package lotto;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +15,6 @@ public class Lotto {
         validateSize(lottoNumbers);
         validateDuplication(lottoNumbers);
         this.lottoNumbers = lottoNumbers;
-        sortLottoNumbers(this.lottoNumbers);
     }
 
     private void validateSize(List<LottoNumber> lottoNumbers) {
@@ -32,10 +30,6 @@ public class Lotto {
         if (integers.size() != LOTTO_NUMBER_COUNT) {
             throw new IllegalArgumentException("로또 번호는 중복될 수 없습니다.");
         }
-    }
-
-    private void sortLottoNumbers(List<LottoNumber> lottoNumbers) {
-        Collections.sort(lottoNumbers);
     }
 
     public List<LottoNumber> getLottoNumbers() {

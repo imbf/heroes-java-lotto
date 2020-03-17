@@ -18,8 +18,8 @@ public class LottoRankResult {
         return count;
     }
 
-    public void increaseCount(Rank rank){
-        if (this.rank == rank){
+    public void increaseCount(Rank rank) {
+        if (this.rank == rank) {
             count++;
         }
     }

@@ -1,36 +1,27 @@
 package lotto;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
 
-public class LottoTest {
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
+public class LottoTest {
 
     @Test
     public void 일곱개이상의_로또번호를가진_객체생성시_예외테스트() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("로또 번호는 6개로 이루어져야 합니다.");
-
-        new Lotto(Arrays.asList(
+        assertThatThrownBy(() -> new Lotto(Arrays.asList(
                 new LottoNumber(1), new LottoNumber(2), new LottoNumber(3),
-                new LottoNumber(4), new LottoNumber(5), new LottoNumber(6), new LottoNumber(7))
-        );
+                new LottoNumber(4), new LottoNumber(5), new LottoNumber(6), new LottoNumber(7)))
+        ).isInstanceOf(IllegalArgumentException.class).hasMessage("로또 번호는 6개로 이루어져야 합니다.");
     }
 
     @Test
     public void 중복된_로또번호를가진_객체생성시_예외테스트() {
-        expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("로또 번호는 중복될 수 없습니다.");
-
-        new Lotto(Arrays.asList(
+        assertThatThrownBy(() -> new Lotto(Arrays.asList(
                 new LottoNumber(1), new LottoNumber(2), new LottoNumber(3),
-                new LottoNumber(4), new LottoNumber(5), new LottoNumber(5))
-        );
+                new LottoNumber(4), new LottoNumber(5), new LottoNumber(5)))
+        ).isInstanceOf(IllegalArgumentException.class).hasMessage("로또 번호는 중복될 수 없습니다.");
     }
 
     @Test

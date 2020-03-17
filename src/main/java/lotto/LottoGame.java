@@ -6,23 +6,17 @@ public class LottoGame {
 
     private static final int LOTTO_PRICE = 1000;
 
-    private PurchaseMoney purchaseMoney;
+    private int autoLottoCount;
     private int manualLottoCount;
-    private List<Lotto> lottos;
-    private WinningLotto winningLotto;
+    private TargetLottos targetLottos;
 
-    public LottoGame(PurchaseMoney purchaseMoney, int manualLottoCount) {
-        this.purchaseMoney = purchaseMoney;
+    public LottoGame(int money, int manualLottoCount) {
         this.manualLottoCount = manualLottoCount;
-        this.lottos = new ArrayList<>();
+        this.autoLottoCount = money / LOTTO_PRICE - manualLottoCount;
     }
 
-    public PurchaseMoney getPurchaseMoney() {
-        return purchaseMoney;
-    }
-
-    public List<Lotto> getLottos() {
-        return lottos;
+    public TargetLottos getTargetLottos() {
+        return targetLottos;
     }
 
     public int getManualLottoCount() {
@@ -30,47 +24,46 @@ public class LottoGame {
     }
 
     public int getAutoLottoCount() {
-        return purchaseMoney.getMoney() / LOTTO_PRICE - manualLottoCount;
+        return autoLottoCount;
     }
 
-    public void setLottos(List<Lotto> lottos) {
-        this.lottos.addAll(lottos);
+    public void registerTargetLottos(TargetLottos targetLottos) {
+        this.targetLottos = targetLottos;
     }
 
-    public void setWinningLotto(WinningLotto winningLotto) {
-        this.winningLotto = winningLotto;
-    }
-
-    public LottoResult createResult() {
-        LottoResult lottoResult = new LottoResult(purchaseMoney);
-        for (Lotto lotto : lottos) {
-            checkLotto(lotto, lottoResult.getLottoRankResults());
+    public LottoResult createResult(WinningLotto winningLotto) {
+        LottoResult lottoResult = new LottoResult((autoLottoCount + manualLottoCount) * LOTTO_PRICE);
+        for (Lotto lotto : targetLottos.getLottos()) {
+            checkLotto(lotto, lottoResult.getLottoRankResults(), winningLotto);
         }
         return lottoResult;
     }
 
-    private void checkLotto(Lotto lotto, List<LottoRankResult> lottoRankResults) {
-        List<Integer> integers = LottoConverter.convertLottoToIntegers(lotto);
+    private void checkLotto(Lotto lotto, List<LottoRankResult> lottoRankResults, WinningLotto winningLotto) {
         int countOfMatch = 0;
         for (LottoNumber lottoNumber : winningLotto.getLotto().getLottoNumbers()) {
-            countOfMatch += checkNumberMatch(integers, lottoNumber.getNumber());
+            countOfMatch += checkNumberMatch(lotto, lottoNumber.getNumber());
         }
-        boolean matchBonus = isBonusMatch(integers);
+        boolean matchBonus = isBonusMatch(lotto, winningLotto.getBonusNumber());
         for (LottoRankResult lottoRankResult : lottoRankResults) {
             lottoRankResult.increaseCount(Rank.valueOf(countOfMatch, matchBonus));
         }
     }
 
-    private int checkNumberMatch(List<Integer> integers, int number) {
-        if (integers.contains(number)) {
-            return 1;
+    private int checkNumberMatch(Lotto lotto, int number) {
+        for (int index = 0; index < lotto.getLottoNumbers().size(); index++) {
+            if (lotto.getLottoNumbers().get(index).getNumber() == number) {
+                return 1;
+            }
         }
         return 0;
     }
 
-    private boolean isBonusMatch(List<Integer> integers) {
-        if (integers.contains(winningLotto.getBonusNumber())) {
-            return true;
+    private boolean isBonusMatch(Lotto lotto, int bonusNumber) {
+        for (int index = 0; index < lotto.getLottoNumbers().size(); index++) {
+            if (lotto.getLottoNumbers().get(index).getNumber() == bonusNumber) {
+                return true;
+            }
         }
         return false;
     }

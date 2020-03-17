@@ -1,6 +1,6 @@
 package lotto;
 
-public class LottoNumber  implements Comparable<LottoNumber>{
+public class LottoNumber {
 
 
     private static final int MAX_LOTTO_NUMBER = 45;
@@ -23,11 +23,4 @@ public class LottoNumber  implements Comparable<LottoNumber>{
         return number;
     }
 
-    @Override
-    public int compareTo(LottoNumber lottoNumber) {
-        if(this.number > lottoNumber.getNumber()){
-            return 1;
-        }
-        return -1;
-    }
 }

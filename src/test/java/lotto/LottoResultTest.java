@@ -13,7 +13,7 @@ public class LottoResultTest {
 
     @Before
     public void setUp() {
-        lottoResult = new LottoResult(new PurchaseMoney(3000));
+        lottoResult = new LottoResult(3000);
         lottoResult.getLottoRankResults().get(2).increaseCount(Rank.THIRD);
         lottoResult.getLottoRankResults().get(2).increaseCount(Rank.FOURTH);
         lottoResult.getLottoRankResults().get(2).increaseCount(Rank.FIRST);
@@ -21,7 +21,6 @@ public class LottoResultTest {
 
     @Test
     public void createRateOfProfit() {
-        assertThat(lottoResult.createRateOfProfit()).isEqualTo((double)1500000/3000);
+        assertThat(lottoResult.createRateOfProfit()).isEqualTo((double) 1500000 / 3000);
     }
-
 }

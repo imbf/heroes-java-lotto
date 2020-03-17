@@ -2,23 +2,32 @@ package view;
 
 import lotto.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResultView {
 
+    private final static int PERCENTAGE = 100;
+
     public static void showAllLottos(LottoGame lottoGame) {
         System.out.println("\n수동으로 " + lottoGame.getManualLottoCount() + "장, 자동으로 " + lottoGame.getAutoLottoCount() + "개를 구매했습니다.");
-        for (Lotto lotto : lottoGame.getLottos()) {
+        for (Lotto lotto : lottoGame.getTargetLottos().getLottos()) {
             showLotto(lotto);
         }
     }
 
     private static void showLotto(Lotto lotto) {
+        List<Integer> integers = lotto.getLottoNumbers().stream()
+                .map(LottoNumber::getNumber)
+                .collect(Collectors.toList());
+        Collections.sort(integers);
+
         System.out.print("[");
         for (int index = 0; index < lotto.getLottoNumbers().size() - 1; index++) {
-            System.out.print(lotto.getLottoNumbers().get(index).getNumber() + ", ");
+            System.out.print(integers.get(index) + ", ");
         }
-        System.out.println(lotto.getLottoNumbers().get(lotto.getLottoNumbers().size() - 1).getNumber() + "]");
+        System.out.println(integers.get(integers.size() - 1) + "]");
     }
 
     public static void showGameResult(LottoResult lottoResult) {
@@ -45,7 +54,6 @@ public class ResultView {
     }
 
     private static void showRateOfProfit(Double rateOfProfit) {
-        System.out.println("총 수익률은 " + String.format("%.1f", rateOfProfit) + "%입니다.");
+        System.out.println("총 수익률은 " + String.format("%.1f", rateOfProfit * PERCENTAGE) + "%입니다.");
     }
-
 }

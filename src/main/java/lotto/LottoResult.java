@@ -6,10 +6,10 @@ import java.util.List;
 public class LottoResult {
 
     private List<LottoRankResult> lottoRankResults;
-    private PurchaseMoney purchaseMoney;
+    private int money;
 
-    public LottoResult(PurchaseMoney purchaseMoney) {
-        this.purchaseMoney = purchaseMoney;
+    public LottoResult(int money) {
+        this.money = money;
         lottoRankResults = new ArrayList<>();
         for (int index = 0; index < Rank.values().length; index++) {
             lottoRankResults.add(new LottoRankResult(Rank.values()[index]));
@@ -25,7 +25,7 @@ public class LottoResult {
         for (LottoRankResult lottoRankResult : lottoRankResults) {
             profit += lottoRankResult.getWinningMoney();
         }
-        return (double) profit / purchaseMoney.getMoney();
+        return (double) profit / money;
     }
 
 }
